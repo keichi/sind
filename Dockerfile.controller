@@ -1,0 +1,12 @@
+FROM keichi/sind-base
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends slurmctld mailutils && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN install -m 755 -o slurm -g slurm -d /var/spool/slurmctld
+
+COPY entrypoint-controller.sh /docker-entrypoint.sh
+COPY slurm.conf /etc/slurm/slurm.conf
+
+ENTRYPOINT ["/docker-entrypoint.sh"]

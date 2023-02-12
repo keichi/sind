@@ -1,0 +1,43 @@
+services:
+  base:
+    image: keichi/sind-base
+    build:
+      dockerfile: Dockerfile.base
+  controller:
+    image: keichi/sind-controller
+    build:
+      dockerfile: Dockerfile.controller
+    hostname: controller
+    depends_on:
+        - database
+    restart: on-failure
+  database:
+    image: keichi/sind-database
+    build:
+      dockerfile: Dockerfile.database
+    hostname: database
+    depends_on:
+      - mysql
+    restart: on-failure
+  mysql:
+    image: mysql:8.0
+    hostname: mysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=slurm_acct_db
+      - MYSQL_USER=slurm
+      - MYSQL_PASSWORD=password
+  worker1:
+    image: keichi/sind-worker
+    build:
+      dockerfile: Dockerfile.worker
+    hostname: worker1
+    depends_on:
+      - controller
+  worker2:
+    image: keichi/sind-worker
+    build:
+      dockerfile: Dockerfile.worker
+    hostname: worker2
+    depends_on:
+      - controller

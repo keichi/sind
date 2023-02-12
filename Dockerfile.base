@@ -1,0 +1,7 @@
+FROM ubuntu:22.04
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends munge gosu && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN install -m 755 -o munge -g munge -d /var/run/munge
