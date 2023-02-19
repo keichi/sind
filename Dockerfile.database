@@ -1,8 +1,9 @@
 FROM keichi/sind-base
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends slurmdbd && \
-    rm -rf /var/lib/apt/lists/*
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    apt-get update && \
+    apt-get install -y --no-install-recommends slurmdbd
 
 COPY entrypoint-database.sh /docker-entrypoint.sh
 COPY slurmdbd.conf /etc/slurm/slurmdbd.conf
