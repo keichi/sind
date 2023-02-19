@@ -41,3 +41,17 @@ services:
     hostname: worker2
     depends_on:
       - controller
+  worker3:
+    image: keichi/sind-worker
+    build:
+      dockerfile: Dockerfile.worker
+    hostname: worker3
+    depends_on:
+      - controller
+  worker4:
+    image: keichi/sind-worker
+    build:
+      dockerfile: Dockerfile.worker
+    hostname: worker4
+    depends_on:
+      - controller
